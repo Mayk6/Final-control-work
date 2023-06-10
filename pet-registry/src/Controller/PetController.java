@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.*;
+import Services.PetCounter;
+import Services.PetStorage;
 import View.*;
 
 import java.util.ArrayList;
@@ -9,28 +11,50 @@ public class PetController {
     PetStorage storage = new PetStorage();
     View consoleView = new ConlsoeView();
 
-    public void addPet() {
-        consoleView.showPetsType();
-        Pet pet = null;
-        while (true){
+    public void run() {
+        while (true) {
             try {
-                int choose = consoleView.choose();
-                switch (choose) {
-                    case 1 -> pet = new Cat();
-                    case 2 -> pet = new Dog();
-                    case 3 -> pet = new Humster();
-                    default -> throw (new NullPointerException());
+                consoleView.mainMenu();
+                switch (consoleView.choose()) {
+                    case 1 -> addPet();
+                    case 2 -> System.out.println(getCommands(findPet()));
+                    case 3 -> teachNewCommand(findPet());
+                    case 0 -> System.exit(0);
                 }
-                break;
             } catch (NullPointerException e) {
-                consoleView.invalidInput();
+                consoleView.petNotFound();
             }
         }
-        pet.setName(consoleView.getName());
-        teachNewCommand(pet);
-        pet.setBirthday(consoleView.enterBirthday());
-        System.out.println(pet);
-        System.out.println(getCommands(pet));
+
+    }
+
+    public void addPet() {
+        try (PetCounter counter = new PetCounter()) {
+            consoleView.showPetsType();
+            Pet pet = null;
+            while (true) {
+                try {
+                    int choose = consoleView.choose();
+                    switch (choose) {
+                        case 1 -> pet = new Cat();
+                        case 2 -> pet = new Dog();
+                        case 3 -> pet = new Humster();
+                        default -> throw (new NullPointerException());
+                    }
+                    break;
+                } catch (NullPointerException e) {
+                    consoleView.invalidInput();
+                }
+            }
+            pet.setName(consoleView.getName());
+            teachNewCommand(pet);
+            pet.setBirthday(consoleView.enterBirthday());
+            System.out.println(pet);
+            System.out.println(getCommands(pet));
+            storage.addPet(pet);
+            counter.add();
+        }
+
     }
 
     public String getCommands(Pet pet) {
@@ -50,5 +74,23 @@ public class PetController {
             pet.setCommands(temp);
             flag = consoleView.anotherOneCommand();
         }
+    }
+
+    public Pet findPet() {
+        Pet pet = null;
+        boolean flag = true;
+        consoleView.findType();
+        while (flag) {
+            flag = false;
+            switch (consoleView.choose()) {
+                case 1 -> pet = storage.findById(consoleView.choose());
+                case 2 -> pet = storage.findByName(consoleView.getName());
+                default -> {
+                    consoleView.invalidInput();
+                    flag = true;
+                }
+            }
+        }
+        return pet;
     }
 }

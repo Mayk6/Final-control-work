@@ -108,4 +108,16 @@ public class ConlsoeView implements View {
         }
         return tempDate;
     }
+
+    public void findType() {
+        System.out.println();
+        System.out.println(
+                """
+                        1 - Поиск по id\s
+                        2 - Поиск по имени""");
+    }
+
+    public void petNotFound() {
+        System.out.println("Животное не найдено");
+    }
 }

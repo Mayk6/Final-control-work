@@ -6,17 +6,21 @@ import java.util.ArrayList;
 
 public abstract class Pet {
 
-    private int id;
+    private static int ID;
+    private Integer id;
     private String name;
     private LocalDate birthday;
+
+    Pet() {
+        id = ID;
+        ID++;
+    }
 
 
 
     private ArrayList<String> commands;
 
-
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

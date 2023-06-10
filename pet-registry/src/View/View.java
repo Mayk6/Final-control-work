@@ -26,4 +26,8 @@ public interface View {
     public boolean anotherOneCommand();
 
     public LocalDate enterBirthday();
+
+    public void findType();
+
+    public void petNotFound();
 }
