@@ -16,16 +16,10 @@ public abstract class Pet {
         ID++;
     }
 
-
-
     private ArrayList<String> commands;
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -47,10 +41,10 @@ public abstract class Pet {
 
     @Override
     public String toString() {
-        return "Pet{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthday=" + getBirthday() +
+        return this.getType() +
+                " id=" + id +
+                ", Имя: '" + name + '\'' +
+                ", Дата рождения: " + getBirthday() +
                 '}';
     }
 
@@ -60,5 +54,10 @@ public abstract class Pet {
 
     public void setCommands(ArrayList<String> commands) {
         this.commands = commands;
+    }
+
+    public String getType() {
+        int temp = this.getClass().toString().lastIndexOf(".");
+        return this.getClass().toString().substring(temp + 1);
     }
 }

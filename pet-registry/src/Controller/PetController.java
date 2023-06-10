@@ -8,8 +8,8 @@ import View.*;
 import java.util.ArrayList;
 
 public class PetController {
-    PetStorage storage = new PetStorage();
-    View consoleView = new ConlsoeView();
+    private final PetStorage storage = new PetStorage();
+    private final View consoleView = new ConlsoeView();
 
     public void run() {
         while (true) {
@@ -19,6 +19,8 @@ public class PetController {
                     case 1 -> addPet();
                     case 2 -> System.out.println(getCommands(findPet()));
                     case 3 -> teachNewCommand(findPet());
+                    case 4 -> getAllPets();
+                    case 5 -> deletePet(findPet());
                     case 0 -> System.exit(0);
                 }
             } catch (NullPointerException e) {
@@ -38,7 +40,7 @@ public class PetController {
                     switch (choose) {
                         case 1 -> pet = new Cat();
                         case 2 -> pet = new Dog();
-                        case 3 -> pet = new Humster();
+                        case 3 -> pet = new Hamster();
                         default -> throw (new NullPointerException());
                     }
                     break;
@@ -47,17 +49,20 @@ public class PetController {
                 }
             }
             pet.setName(consoleView.getName());
-            teachNewCommand(pet);
+            if (consoleView.anotherOneCommand("Животное знает команды?")) {
+                teachNewCommand(pet);
+            }
             pet.setBirthday(consoleView.enterBirthday());
-            System.out.println(pet);
-            System.out.println(getCommands(pet));
             storage.addPet(pet);
             counter.add();
+        } catch (RuntimeException e) {
+            System.out.println("Ошибка");
         }
-
     }
 
     public String getCommands(Pet pet) {
+        if (pet.getCommands() == null) return "Животное не знает комманд." ;
+
         return "Животное " +
                 pet.getName() +
                 " знает команды: " +
@@ -72,7 +77,7 @@ public class PetController {
             if (temp == null) temp = new ArrayList<>();
             temp.add(command);
             pet.setCommands(temp);
-            flag = consoleView.anotherOneCommand();
+            flag = consoleView.anotherOneCommand("Желаете добавить еще команду?");
         }
     }
 
@@ -93,4 +98,17 @@ public class PetController {
         }
         return pet;
     }
+
+    public void deletePet(Pet pet) {
+        storage.deletePet(pet);
+    }
+
+    public void getAllPets() {
+        ArrayList<Pet> pets = storage.getAllPets();
+        for (Pet pet : pets) {
+            System.out.println(pet.toString());
+        }
+    }
+
+
 }

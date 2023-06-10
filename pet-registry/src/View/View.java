@@ -1,7 +1,6 @@
 package View;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public interface View {
 
@@ -10,8 +9,6 @@ public interface View {
     public void showPetsType();
 
     public String enterCommand();
-
-    public void deleteCommand(String command);
 
     public void showMessage(String message);
 
@@ -23,11 +20,12 @@ public interface View {
 
     public String getName();
 
-    public boolean anotherOneCommand();
+    public boolean anotherOneCommand(String text);
 
     public LocalDate enterBirthday();
 
     public void findType();
 
     public void petNotFound();
+
 }

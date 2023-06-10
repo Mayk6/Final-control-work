@@ -16,6 +16,8 @@ public class ConlsoeView implements View {
                         1 - Добавить новое животное\s
                         2 - Просмотр команд животного\s
                         3 - Обучить животное новой команде\s
+                        4 - Показать всех животных\s
+                        5 - Удалить животное\s
                         0 - Выход""");
     }
 
@@ -50,7 +52,6 @@ public class ConlsoeView implements View {
         System.out.println("Неверный формат ввода, повторите.");
     }
 
-
     public int choose() {
         Scanner scanner = new Scanner(System.in);
         try {
@@ -74,9 +75,9 @@ public class ConlsoeView implements View {
         return getText();
     }
 
-    public boolean anotherOneCommand() {
+    public boolean anotherOneCommand(String text) {
         boolean flag = false;
-        System.out.println("Желатете добавить еще команду?");
+        System.out.println(text);
         System.out.println(
                 """
                         1 - Да\s
@@ -87,9 +88,8 @@ public class ConlsoeView implements View {
             if (choose == 1) {
                 return true;
             } else if (choose == 2) {
-                return  false;
-            }
-            else {
+                return false;
+            } else {
                 invalidInput();
             }
         }

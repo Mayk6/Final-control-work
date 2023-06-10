@@ -12,21 +12,22 @@ public class PetStorage {
     public PetStorage() {
         storage = new ArrayList<>();
     }
-    public Pet findByName (String name) {
+
+    public Pet findByName(String name) {
         Pet pet = null;
         try {
             pet = storage.stream().filter(x -> x.getName().equals(name)).findFirst().get();
-        }catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             return null;
         }
         return pet;
     }
 
-    public Pet findById (int id) {
+    public Pet findById(int id) {
         Pet pet = null;
         try {
             pet = storage.stream().filter(x -> x.getId().equals(id)).findFirst().get();
-        }catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             return null;
         }
         return pet;
@@ -40,7 +41,7 @@ public class PetStorage {
         storage.remove(pet);
     }
 
-
-
-
+    public ArrayList<Pet> getAllPets() {
+        return storage;
+    }
 }
